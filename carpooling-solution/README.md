@@ -88,3 +88,5 @@ Se decide implementar 3 Lambdas de AWS: Rutas (registrar, cancelar, ver), Suscri
 ### Lambda para Mensajeria
 - **mensajeriaSMS**: Esta función interactua por medio del ApiGateway y SNS para generar los mensajes de SMS
 - **mensajeriaEMAIL**: Esta función interactua por medio del ApiGateway y SNS para generar los mensajes de e-mail
+
+Para ver la metodología vaya al archivo [Metodologia](Metodologia.md)
