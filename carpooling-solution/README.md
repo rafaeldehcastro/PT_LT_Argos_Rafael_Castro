@@ -1,10 +1,9 @@
-# PT_LT_Argos_Rafael_Castro
-Prueba técnica Argos Rafael Castro
-
 ## Parte 1
 Como parte de los proyectos de sostenibilidad de la compañía, se está buscando una solución que permita que los empleados publiquen sus rutas de transporte e indiquen los cupos que tienen disponibles en su vehículo, la hora de salida, el lugar de origen y el destino y que permita a los demás compañeros inscribirse en alguna de las rutas.
 
-# Solución de Carpooling para la Sostenibilidad de la Compañía
+# Solución de Carpooling para la Sostenibilidad de la Compañía diagrama arquitectura
+
+![Arquitectura](architecture_diagram.png)
 
 ## Tecnologías, lenguajes de programación y frameworks
 
@@ -43,3 +42,28 @@ Como parte de los proyectos de sostenibilidad de la compañía, se está buscand
   - **Amazon CloudFront**: CDN para distribuir el contenido estáticamente alojado en S3 a nivel global y reducir latencias.
   - **Amazon Route 53**: Servicio de DNS para dirigir el tráfico web a los recursos adecuados, como CloudFront o API Gateway.
   - **Justificación**: La combinación de AWS Lambda con API Gateway permite una arquitectura serverless escalable y de bajo mantenimiento. S3 y CloudFront garantizan una entrega rápida y confiable del frontend y otros recursos estáticos. Route 53 proporciona una gestión confiable del DNS.
+
+
+## Autenticar a los empleados de la compañía 
+•	La aplicación sólo puede ser accedida por los usuarios de la compañía. 
+•	Para facilitar la gestión es necesario que la aplicación use el directorio activo para autenticación y autorización. 
+
+Se usará Amazon Cognito con integración a Directorio Activo mediante ADFS.
+
+## Demás funcionalidades
+Se decide implementar 3 Lambdas de AWS: Rutas (registrar, cancelar, ver), Suscripciones (suscribir, ver) y Mensajes (e-mail, sms)
+
+### Lambda para Rutas:
+
+- **registrarRuta**: Esta función  permitirá recibir la información de la ruta proporcionada por el empleado y almacenarla en una base de datos (por ejemplo, PostgreSQL). Los datos incluirán fecha, tipo de vehículo, hora de salida, cupos disponibles, lugar de origen y lugar de destino.
+- **cancelarRuta**: Esta función permitirá que un empleado cancele una ruta que ha publicado. Además de marcar la ruta como cancelada en la base de datos, esta función enviará notificaciones a los suscriptores de la ruta. Esto podría ser una combinación de una notificación por correo electrónico y SMS.
+- **verRutasDisponibles**: Esta función me permitirá devolver una lista de rutas disponibles basadas en los criterios mencionados (fecha actual, cupos disponibles, hora futura).
+
+### Lambda para Suscripciones:
+
+- **suscribirseRuta**: Esta función permitirá que un empleado se suscriba a una ruta disponible. Después de suscribir al empleado a la ruta en la base de datos, notificará al dueño de la ruta por correo electrónico y SMS.
+- **verSuscriptoresRuta**: Esta función me permitirá que el dueño de la ruta vea quién se ha suscrito a su ruta. Recuperará la lista de suscriptores de la base de datos y luego, utilizando una conexión con el directorio activo, recuperará detalles adicionales como el nombre, correo electrónico y número de celular de cada suscriptor.
+
+### Lambda para Mensajeria
+- **mensajeriaSMS**: Esta función interactua por medio del ApiGateway y SNS para generar los mensajes de SMS
+- **mensajeriaEMAIL**: Esta función interactua por medio del ApiGateway y SNS para generar los mensajes de e-mail
