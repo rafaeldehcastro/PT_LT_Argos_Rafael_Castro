@@ -5,6 +5,27 @@ Como parte de los proyectos de sostenibilidad de la compañía, se está buscand
 
 ![Arquitectura](architecture_diagram.png)
 
+# Modelos
+
+#### Descripción del Modelo Entidad-Relación:
+
+**Entidades**:
+1. **Empleado**:
+   - Atributos: ID_Empleado (PK), Nombre, Correo_Electronico, Celular.
+2. **Ruta**:
+   - Atributos: ID_Ruta (PK), Fecha, Tipo_Vehiculo, Hora_Salida, Cupos_Disponibles, Lugar_Origen, Lugar_Destino.
+3. **Suscripcion**:
+   - Atributos: ID_Suscripcion (PK), ID_Empleado (FK), ID_Ruta (FK).
+4. **Mensaje**:
+   - Atributos: ID_Mensaje (PK), Tipo, Contenido.
+
+**Relaciones**:
+1. **Publica**: Un **Empleado** puede publicar múltiples **Rutas**, pero cada **Ruta** es publicada por un solo **Empleado**.
+2. **Suscribe**: Un **Empleado** puede suscribirse a múltiples **Rutas**, y cada **Ruta** puede tener múltiples **Empleados** suscritos.
+3. **Recibe**: Un **Empleado** puede recibir múltiples **Mensajes**.
+
+![MER](MER_diagram.png)
+
 ## Tecnologías, lenguajes de programación y frameworks
 
 ### 1. **Frontend Web**:
