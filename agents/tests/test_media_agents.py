@@ -1,5 +1,5 @@
 import unittest
-from media_agents.media_agents import AgentFactory, AgentA, AgentB, AgentC
+from general_agents.media_agents import AgentFactory, AgentA, AgentB, AgentC
 
 class TestAgentA(unittest.TestCase):
     
@@ -35,6 +35,81 @@ class TestAgentC(unittest.TestCase):
     def test_median_even(self):
         self.assertEqual(self.agent.getMedia([1, 3, 2, 5, 4, 6]), 3.5)
 
+
+class TestStaircaseAgentA(unittest.TestCase):
+    
+    def setUp(self):
+        self.agent = AgentFactory.create_agent("A")
+        
+    def test_staircase(self):
+        self.assertEqual(self.agent.getStaircase(4), 
+                         "   #\n  ##\n ###\n####")
+        
+
+class TestStaircaseAgentB(unittest.TestCase):
+    
+    def setUp(self):
+        self.agent = AgentFactory.create_agent("B")
+        
+    def test_staircase(self):
+        self.assertEqual(self.agent.getStaircase(4), 
+                         "####\n ###\n  ##\n   #")
+            
+
+class TestStaircaseAgentC(unittest.TestCase):
+    
+    def setUp(self):
+        self.agent = AgentFactory.create_agent("C")
+        
+    def test_staircase_n_4(self):
+        expected_output = (
+            "   ####\n"
+            "  ######\n"
+            " ########\n"
+            "##########\n"
+            " ########\n"
+            "  ######\n"
+            "   ####"
+        )
+        self.assertEqual(self.agent.getStaircase(4), expected_output)
+    
+    def test_staircase_n_5(self):
+        expected_output = (
+            "    #####\n"
+            "   #######\n"
+            "  #########\n"
+            " ###########\n"
+            "#############\n"
+            " ###########\n"
+            "  #########\n"
+            "   #######\n"
+            "    #####"
+        )
+        self.assertEqual(self.agent.getStaircase(5), expected_output)
+
+    def test_staircase_n_10(self):
+        expected_output = (
+            "         ##########\n"
+            "        ############\n"
+            "       ##############\n"
+            "      ################\n"
+            "     ##################\n"
+            "    ####################\n"
+            "   ######################\n"
+            "  ########################\n"
+            " ##########################\n"
+            "############################\n"
+            " ##########################\n"
+            "  ########################\n"
+            "   ######################\n"
+            "    ####################\n"
+            "     ##################\n"
+            "      ################\n"
+            "       ##############\n"
+            "        ############\n"
+            "         ##########"
+        )
+        self.assertEqual(self.agent.getStaircase(10), expected_output)
 
 if __name__ == '__main__':
     unittest.main()
